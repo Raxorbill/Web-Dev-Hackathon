@@ -1,0 +1,6 @@
+{
+  "name": "Heaven Furniture Mart",
+  "description": "A cinematic luxury digital showroom and bespoke furniture studio in Chattogram, Bangladesh. Designed. Crafted. Customized.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
