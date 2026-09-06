@@ -18,26 +18,42 @@ export const SafeImage: React.FC<SafeImageProps> = ({
   loading = 'lazy',
   ...props
 }) => {
-  const [currentSrc, setCurrentSrc] = useState<string>(src);
+  const filename = src.split('/').pop() || '';
+  const nameWithoutExt = filename.substring(0, filename.lastIndexOf('.')) || filename;
+
+  const candidateList = React.useMemo(() => {
+    const list = [
+      src,
+      `/images/${filename}`,
+      `/images/${nameWithoutExt}.png`,
+      `/images/${nameWithoutExt}.jpg`,
+      `/images/${nameWithoutExt}.jpeg`,
+      `/images/${nameWithoutExt}.webp`,
+      `/${filename}`,
+      fallbackSrc
+    ];
+    return Array.from(new Set(list.filter(Boolean)));
+  }, [src, filename, nameWithoutExt, fallbackSrc]);
+
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isFailed, setIsFailed] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // Sync if prop changes
   useEffect(() => {
-    setCurrentSrc(src);
+    setCurrentIndex(0);
     setIsFailed(false);
     setIsLoaded(false);
   }, [src]);
 
   const handleError = () => {
-    if (currentSrc !== fallbackSrc) {
-      // Try reliable fallback image
-      setCurrentSrc(fallbackSrc);
+    if (currentIndex < candidateList.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
     } else {
-      // Even fallback failed; render elegant architectural placeholder
       setIsFailed(true);
     }
   };
+
+  const currentSrc = candidateList[currentIndex] || fallbackSrc;
 
   if (isFailed) {
     return (

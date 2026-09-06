@@ -71,8 +71,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onRequestConsultation }) => {
         id="main-navbar"
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
           scrolled
-            ? 'bg-[#102021]/95 backdrop-blur-md border-b border-[#23393B]/70 py-4 shadow-xl'
-            : 'bg-gradient-to-b from-[#102021]/80 to-transparent py-6'
+            ? 'bg-[#102021]/95 backdrop-blur-md border-b border-[#23393B]/70 py-3 sm:py-4 shadow-xl'
+            : 'bg-gradient-to-b from-[#102021]/80 to-transparent py-4 sm:py-6'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between">

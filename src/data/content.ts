@@ -6,7 +6,7 @@ export const SPACES_DATA: SpaceItem[] = [
     name: 'LIVING ROOM',
     subtitle: 'Quiet luxury & bespoke proportions',
     description: 'Bespoke sculptural sofas, architectural coffee tables, and tailored entertainment consoles designed to command presence while inviting effortless comfort.',
-    image: '/images/bespoke/bespoke-home.png',
+    image: 'https://i.postimg.cc/3xdyTqVr/sofa.png',
     aspects: ['Custom Sectionals & Sofas', 'Handcrafted Center Tables', 'Acoustic TV Media Walls', 'Accent Bergère Chairs']
   },
   {
@@ -134,10 +134,10 @@ export const WHY_REASONS: WhyReason[] = [
   },
   {
     number: '05',
-    title: 'TRUSTED BY HUNDREDS OF HOMEOWNERS',
-    summary: 'Over 500+ private residences and premier commercial projects furnished.',
-    detail: 'A stellar reputation built on punctuality, pristine material honesty, and ongoing aftercare for prominent families and executive suites.',
-    image: '/images/reasons/trust.png'
+    title: 'FLAGSHIP SHOWROOM & LIFETIME TRUST',
+    summary: 'Visit our two-story flagship destination at Agrabad Access Road.',
+    detail: 'Experience our master craftsmanship in person. Over 500+ private residences and premier commercial projects furnished across Chattogram and nationwide.',
+    image: 'https://i.postimg.cc/R0tN3HMn/showroom.png'
   }
 ];
 

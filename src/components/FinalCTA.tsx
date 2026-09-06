@@ -16,8 +16,9 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRequestConsultation }) => 
       {/* Cinematic Background Photography with Dark Luxury Overlay */}
       <div className="absolute inset-0 w-full h-full">
         <SafeImage
-          src="/images/bespoke/bespoke-home.png"
-          alt="Heaven Furniture Mart Luxury Architectural Commission"
+          src="https://i.postimg.cc/R0tN3HMn/showroom.png"
+          fallbackSrc="/images/bespoke/bespoke-home.png"
+          alt="Heaven Furniture Mart Luxury Flagship Showroom"
           className="w-full h-full object-cover object-center filter brightness-[0.45] contrast-110"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#102021] via-[#102021]/60 to-[#102021]" />

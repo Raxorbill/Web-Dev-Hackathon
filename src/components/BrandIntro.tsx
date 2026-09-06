@@ -60,8 +60,9 @@ export const BrandIntro: React.FC = () => {
         >
           <div className="relative aspect-[16/9] sm:aspect-[21/10] w-full overflow-hidden group">
             <SafeImage
-              src="/images/bespoke/bespoke-home.png"
-              alt="Heaven Furniture Mart Bespoke Interior Environment"
+              src="https://i.postimg.cc/0jn6k19D/fill-space.png"
+              fallbackSrc="/images/space.png"
+              alt="Heaven Furniture Mart Curated Architectural Living"
               className="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-[1.02] filter brightness-[0.97]"
             />
             {/* Subtle luxury edge vignette */}

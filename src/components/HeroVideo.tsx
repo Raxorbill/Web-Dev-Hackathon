@@ -176,15 +176,15 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({
             </div>
 
             {/* Status & Shimmering Calibration Pill */}
-            <div className="relative z-10 self-end lg:self-end flex flex-col items-end gap-2 bg-[#122324]/80 border border-[#23393B] backdrop-blur-md px-5 py-3.5 shadow-xl">
-              <div className="flex items-center gap-2.5 text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#E5DDCF] font-sans-modern">
-                <Sparkles className="w-3.5 h-3.5 text-[#A7834A] animate-pulse" />
+            <div className="relative z-10 self-end lg:self-end flex flex-col items-end gap-1.5 sm:gap-2 bg-[#122324]/85 border border-[#23393B] backdrop-blur-md px-3.5 sm:px-5 py-2.5 sm:py-3.5 shadow-xl">
+              <div className="flex items-center gap-2 sm:gap-2.5 text-[9px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#E5DDCF] font-sans-modern">
+                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#A7834A] animate-pulse" />
                 <span>CALIBRATING ATELIER REVEAL</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#A7834A] animate-ping" />
               </div>
 
               {/* Continuous micro loading bar */}
-              <div className="w-48 h-[2px] bg-[#23393B] overflow-hidden">
+              <div className="w-36 sm:w-48 h-[2px] bg-[#23393B] overflow-hidden">
                 <motion.div
                   animate={{ x: ['-100%', '100%'] }}
                   transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
@@ -197,6 +197,9 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({
       </AnimatePresence>
 
       {/* 4. Quiet Luxury Lighting & Directional Negative Space Gradients */}
+      {/* Mobile-dedicated contrast overlay to guarantee flawless text legibility */}
+      <div className="absolute inset-0 bg-[#102021]/60 lg:hidden z-[2] pointer-events-none" />
+
       {/* Left-to-right dark gradient ensuring editorial text on the left is legible */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#102021] via-[#102021]/80 to-transparent w-full lg:w-3/4 z-[2] pointer-events-none" />
 
@@ -207,7 +210,7 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#A7834A]/10 blur-3xl pointer-events-none z-[2]" />
 
       {/* 5. Minimalist Progress Indicator & Replay Control when finished */}
-      <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 z-20 flex items-center gap-3">
+      <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-10 lg:right-10 z-20 flex items-center gap-3">
         {/* Subtle timeline hairline when playing */}
         {isPlaying && (
           <div className="hidden sm:flex items-center gap-2 bg-[#102021]/70 backdrop-blur-sm border border-[#23393B]/70 px-3 py-1.5 text-[10px] tracking-widest text-[#E5DDCF]/70 font-sans-modern">
