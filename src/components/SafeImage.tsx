@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface SafeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   fallbackSrc?: string;
   className?: string;
+  priority?: boolean;
 }
 
 // Guaranteed local fallback image that exists in public/images/
-const DEFAULT_FALLBACK = '/images/bespoke/bespoke-home.png';
+const DEFAULT_FALLBACK = '/images/bespoke/bespoke-home.webp';
 
 export const SafeImage: React.FC<SafeImageProps> = ({
   src,
@@ -16,22 +17,45 @@ export const SafeImage: React.FC<SafeImageProps> = ({
   fallbackSrc = DEFAULT_FALLBACK,
   className = '',
   loading = 'lazy',
+  priority = false,
   ...props
 }) => {
+  const imgRef = useRef<HTMLImageElement>(null);
   const filename = src.split('/').pop() || '';
   const nameWithoutExt = filename.substring(0, filename.lastIndexOf('.')) || filename;
 
   const candidateList = React.useMemo(() => {
-    const list = [
-      src,
-      `/images/${filename}`,
-      `/images/${nameWithoutExt}.png`,
-      `/images/${nameWithoutExt}.jpg`,
-      `/images/${nameWithoutExt}.jpeg`,
-      `/images/${nameWithoutExt}.webp`,
-      `/${filename}`,
-      fallbackSrc
-    ];
+    const isExternal = src.startsWith('http://') || src.startsWith('https://');
+    const list: string[] = [];
+
+    if (isExternal) {
+      // Map user's external uploaded images to fast local WebP/PNG copies on the same server
+      if (nameWithoutExt === 'fill-space' || nameWithoutExt === 'space') {
+        list.push('/images/space.webp', '/images/space.png');
+      } else if (nameWithoutExt === 'sofa') {
+        list.push('/images/sofa.webp', '/images/sofa.png', '/images/living/sofa.webp');
+      } else if (nameWithoutExt === 'showroom') {
+        list.push('/images/showroom.webp', '/images/showroom.png', '/images/showroom/showroom.webp');
+      } else if (nameWithoutExt === 'group') {
+        list.push('/images/group.webp', '/images/group.png', '/images/story/group.webp');
+      }
+      // Remote source as secondary candidate
+      list.push(src);
+    } else {
+      // Local source: always try .webp first for 90%+ bandwidth savings and instant render
+      const webpPath = src.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+      list.push(
+        webpPath,
+        src,
+        `/images/${nameWithoutExt}.webp`,
+        `/images/${nameWithoutExt}.png`,
+        `/images/${filename}`
+      );
+    }
+
+    // Finally the fallback
+    list.push(fallbackSrc);
+
     return Array.from(new Set(list.filter(Boolean)));
   }, [src, filename, nameWithoutExt, fallbackSrc]);
 
@@ -45,6 +69,15 @@ export const SafeImage: React.FC<SafeImageProps> = ({
     setIsLoaded(false);
   }, [src]);
 
+  const currentSrc = candidateList[currentIndex] || fallbackSrc;
+
+  // Check if browser already has image in cache
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setIsLoaded(true);
+    }
+  }, [currentSrc]);
+
   const handleError = () => {
     if (currentIndex < candidateList.length - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -52,8 +85,6 @@ export const SafeImage: React.FC<SafeImageProps> = ({
       setIsFailed(true);
     }
   };
-
-  const currentSrc = candidateList[currentIndex] || fallbackSrc;
 
   if (isFailed) {
     return (
@@ -75,13 +106,16 @@ export const SafeImage: React.FC<SafeImageProps> = ({
 
   return (
     <img
+      ref={imgRef}
       src={currentSrc}
       alt={alt}
-      loading={loading}
+      loading={priority ? 'eager' : loading}
+      decoding="async"
+      fetchPriority={priority ? 'high' : 'auto'}
       referrerPolicy="no-referrer"
       onError={handleError}
       onLoad={() => setIsLoaded(true)}
-      className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-90'} transition-opacity duration-500`}
+      className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-95'} transition-opacity duration-300`}
       {...props}
     />
   );
